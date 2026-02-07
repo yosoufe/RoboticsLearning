@@ -1,0 +1,83 @@
+# My  notes
+
+```bash
+conda activate lerobot
+```
+
+
+Finding the port of the robot
+
+```bash
+lerobot-find-port
+# /dev/ttyACM0 # first robot (follower)
+# /dev/ttyACM1 # second robot (leader)
+```
+
+# Setting motor ids
+
+I have already set the motor ids. But the command is `lerobot-setup-motors`. I think I used different command before.
+Let's see if we need to continue without doing it with the new tool.
+
+# Calibration
+
+```bash
+cd lerobot
+python -m pip install -e .[feetech]
+sudo usermod -a -G dialout $USER
+
+lerobot-calibrate \
+    --robot.type=so100_follower \
+    --robot.port=/dev/ttyACM0 \
+    --robot.id=follower_100
+
+cp /home/yousof/.cache/huggingface/lerobot/calibration/robots/so_follower/follower_100.json .
+
+lerobot-calibrate \
+    --teleop.type=so100_leader \
+    --teleop.port=/dev/ttyACM0 \
+    --teleop.id=leader_100
+
+cp /home/yousof/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/leader_100.json .
+```
+
+Output looks like this
+```
+NAME            |    MIN |    POS |    MAX
+shoulder_pan    |    594 |   1933 |   3407
+shoulder_lift   |    752 |    848 |   3236
+elbow_flex      |    900 |   3118 |   3126
+wrist_flex      |    693 |   2806 |   3198
+gripper         |   2032 |   2056 |   3502
+Calibration saved to /home/yousof/.cache/huggingface/lerobot/calibration/robots/so_follower/follower_100.json
+
+
+-------------------------------------------
+-------------------------------------------
+NAME            |    MIN |    POS |    MAX
+shoulder_pan    |    601 |   2009 |   3429
+shoulder_lift   |    772 |    859 |   3279
+elbow_flex      |    857 |   3113 |   3114
+wrist_flex      |    629 |    639 |   3136
+gripper         |   2038 |   2055 |   3065
+Calibration saved to /home/yousof/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/leader_100.json
+INFO 2026-02-06 18:25:21 o_leader.py:156 leader_100 SOLeader disconnected.
+```
+
+
+# Teleoperation
+connect the follower first, then the leader
+
+```bash
+lerobot-teleoperate \
+    --robot.type=so100_follower \
+    --robot.port=/dev/ttyACM0 \
+    --robot.id=follower_100 \
+    --teleop.type=so100_leader \
+    --teleop.port=/dev/ttyACM1 \
+    --teleop.id=leader_100
+```
+
+
+# References
+
+- [so100 docs](https://huggingface.co/docs/lerobot/en/so100?example=Linux&setup_motors=Command&calibrate_follower=Command)
