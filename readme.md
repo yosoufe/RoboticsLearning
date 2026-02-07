@@ -31,6 +31,8 @@ lerobot-calibrate \
     --robot.id=follower_100
 
 cp /home/yousof/.cache/huggingface/lerobot/calibration/robots/so_follower/follower_100.json .
+# or from this repo to cache
+cp follower_100.json /home/yousof/.cache/huggingface/lerobot/calibration/robots/so_follower/
 
 lerobot-calibrate \
     --teleop.type=so100_leader \
@@ -38,6 +40,8 @@ lerobot-calibrate \
     --teleop.id=leader_100
 
 cp /home/yousof/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/leader_100.json .
+# or from this repo to cache
+cp leader_100.json /home/yousof/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/
 ```
 
 Output looks like this
