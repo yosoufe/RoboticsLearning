@@ -81,6 +81,20 @@ lerobot-teleoperate \
     --teleop.id=leader_100
 ```
 
+# Teleop with camera
+
+```bash
+lerobot-teleoperate \
+    --robot.type=so100_follower \
+    --robot.port=/dev/ttyACM0 \
+    --robot.id=follower_100 \
+    --robot.cameras="{ front: {type: opencv, index_or_path: 1, width: 640, height: 480, fps: 30}}" \
+    --teleop.type=so100_leader \
+    --teleop.port=/dev/ttyACM1 \
+    --teleop.id=leader_100 \
+    --display_data=true
+```
+
 
 # References
 
